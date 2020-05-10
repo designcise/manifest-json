@@ -13,29 +13,26 @@ use Designcise\ManifestJson\Loader;
 $loader = new Loader('path/to/manifest/');
 
 $entry = $loader->get('entry.js');
-
 $manifest = $loader->getAll();
-
 $css = $loader->getByType('css');
-
 $images = $loader->getByTypes(['jpg', 'png']);
 ```
 
 ## API
 
-### get(string $key): string
+### `get(string $key): string`
 
 Gets the `manifest.json` metadata for the specified `$key`.
 
-### getAll(): array
+### `getAll(): array`
 
 Get all entries in the `manifest.json` file as an array.
 
-### getByType(string $type): array
+### `getByType(string $type): array`
 
 Gets all files with the specified file extension (for e.g. `css`, `js`, etc.) as an array.
 
-### getAllByTypes(array $types): array
+### `getAllByTypes(array $types): array`
 
 Gets all files with the specified file extensions (e.g. `['css', 'js']`, etc.) as an array.
 
