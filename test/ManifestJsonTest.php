@@ -11,24 +11,29 @@
 namespace BitFrame\Renderer\Test;
 
 use PHPUnit\Framework\TestCase;
-use Designcise\ManifestJson\Loader;
+use Designcise\ManifestJson\ManifestJson;
 
 /**
- * @covers \Designcise\ManifestJson\Loader
+ * @covers \Designcise\ManifestJson\ManifestJson
  */
-class LoaderTest extends TestCase
+class ManifestJsonTest extends TestCase
 {
-    private Loader $loader;
+    private ManifestJson $loader;
 
     /** @var string */
     private const ASSETS_DIR = __DIR__ . '/Asset/';
 
     public function setUp(): void
     {
-        $this->loader = new Loader(self::ASSETS_DIR);
+        $this->loader = new ManifestJson(self::ASSETS_DIR);
     }
 
-    public function getProvider(): array
+    public function testHas(): void
+    {
+        $this->assertTrue($this->loader->has('vendors~blog~index.js'));
+    }
+
+    public function metadataByKeyProvider(): array
     {
         return [
             'js' => ['vendors~blog~index.js', 'js/vendors~blog~index.ef6c1e1242cc8cdc5891.js'],
@@ -38,7 +43,7 @@ class LoaderTest extends TestCase
     }
 
     /**
-     * @dataProvider getProvider
+     * @dataProvider metadataByKeyProvider
      *
      * @param string $original
      * @param string $expected

@@ -8,14 +8,14 @@ PHP `manifest.json` parser/loader.
 ## Example
 
 ```php
-use Designcise\ManifestJson\Loader;
+use Designcise\ManifestJson\ManifestJson;
 
-$loader = new Loader('path/to/manifest/');
+$mainfest = new ManifestJson('path/to/manifest/');
 
-$entry = $loader->get('entry.js');
-$manifest = $loader->getAll();
-$css = $loader->getByType('css');
-$images = $loader->getByTypes(['jpg', 'png']);
+$entry = $mainfest->get('entry.js');
+$metadata = $mainfest->getAll();
+$css = $mainfest->getAllByType('css');
+$images = $mainfest->getAllByTypes(['jpg', 'png']);
 ```
 
 ## API
@@ -28,7 +28,7 @@ Gets the `manifest.json` metadata for the specified `$key`.
 
 Get all entries in the `manifest.json` file as an array.
 
-### `getByType(string $type): array`
+### `getAllByType(string $type): array`
 
 Gets all files with the specified file extension (for e.g. `css`, `js`, etc.) as an array.
 

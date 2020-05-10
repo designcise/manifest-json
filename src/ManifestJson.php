@@ -24,7 +24,7 @@ use const JSON_THROW_ON_ERROR;
 use const ARRAY_FILTER_USE_KEY;
 use const PATHINFO_EXTENSION;
 
-class Loader
+class ManifestJson
 {
     /** @var string */
     private const MANIFEST_FILE_NAME = 'manifest.json';
@@ -52,9 +52,9 @@ class Loader
 
     public function get(string $key): string
     {
-        if (! isset($this->metadata[$key])) {
+        if (! $this->has($key)) {
             throw new InvalidArgumentException(
-                'Manifest key ' . $key . ' does not exist.'
+                'Manifest key "' . $key . '" does not exist.'
             );
         }
 
