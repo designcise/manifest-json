@@ -10,27 +10,44 @@
 
 namespace BitFrame\Renderer\Test;
 
+use ReflectionObject;
 use PHPUnit\Framework\TestCase;
 use Designcise\ManifestJson\ManifestJson;
+use RuntimeException;
+use InvalidArgumentException;
 
 /**
  * @covers \Designcise\ManifestJson\ManifestJson
  */
 class ManifestJsonTest extends TestCase
 {
-    private ManifestJson $loader;
+    private ManifestJson $manifest;
 
     /** @var string */
     private const ASSETS_DIR = __DIR__ . '/Asset/';
 
     public function setUp(): void
     {
-        $this->loader = new ManifestJson(self::ASSETS_DIR);
+        $this->manifest = new ManifestJson(self::ASSETS_DIR);
+    }
+
+    public function testInstantiatingWithNonExistentPathShouldThrowException(): void
+    {
+        $this->expectException(RuntimeException::class);
+
+        new ManifestJson('/non-existent/path/');
     }
 
     public function testHas(): void
     {
-        $this->assertTrue($this->loader->has('vendors~blog~index.js'));
+        $this->assertTrue($this->manifest->has('vendors~blog~index.js'));
+    }
+
+    public function testGetShouldThrowExceptionForNonExistentKey(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->manifest->get('non-existent.js');
     }
 
     public function metadataByKeyProvider(): array
@@ -50,7 +67,7 @@ class ManifestJsonTest extends TestCase
      */
     public function testGet(string $original, string $expected): void
     {
-        $this->assertSame($expected, $this->loader->get($original));
+        $this->assertSame($expected, $this->manifest->get($original));
     }
 
     public function testGetAll(): void
@@ -67,7 +84,7 @@ class ManifestJsonTest extends TestCase
             'img/logo.png' => 'img/logo.png'
         ];
 
-        $this->assertSame($expected, $this->loader->getAll());
+        $this->assertSame($expected, $this->manifest->getAll());
     }
 
     public function typeProvider(): array
@@ -113,7 +130,31 @@ class ManifestJsonTest extends TestCase
      */
     public function testGetAllByType(string $type, array $expected): void
     {
-        $this->assertSame($expected, $this->loader->getAllByType($type));
+        $this->assertSame($expected, $this->manifest->getAllByType($type));
+    }
+
+    /**
+     * @runInSeparateProcess
+     * @throws \ReflectionException
+     */
+    public function testGetAllByTypeGetsFromCachedResultsOnRepeatCalls(): void
+    {
+        $expected = [
+            'blog.css' => 'css/blog.ef6c1e1242cc8cdc5891.css',
+            'index.css' => 'css/index.ef6c1e1242cc8cdc5891.css',
+            'vendors~blog.css' => 'css/vendors~blog.ef6c1e1242cc8cdc5891.css',
+        ];
+        $css = $this->manifest->getAllByType('css');
+
+        $manifestReflection = new ReflectionObject($this->manifest);
+        $metadata = $manifestReflection->getProperty('metadata');
+        $metadata->setAccessible(true);
+        $metadata->setValue($this->manifest, array_merge(
+            $metadata->getValue($this->manifest),
+            ['new' => 'value']
+        ));
+
+        $this->assertSame($expected, $css);
     }
 
     public function typesProvider(): array
@@ -168,6 +209,6 @@ class ManifestJsonTest extends TestCase
      */
     public function testGetAllByTypes(array $types, array $expected): void
     {
-        $this->assertSame($expected, $this->loader->getAllByTypes($types));
+        $this->assertSame($expected, $this->manifest->getAllByTypes($types));
     }
 }

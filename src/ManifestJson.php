@@ -19,6 +19,7 @@ use function realpath;
 use function json_decode;
 use function array_filter;
 use function pathinfo;
+use function str_replace;
 
 use const JSON_THROW_ON_ERROR;
 use const ARRAY_FILTER_USE_KEY;
@@ -117,10 +118,9 @@ class ManifestJson
         $filePath = realpath($dir . DIRECTORY_SEPARATOR . self::MANIFEST_FILE_NAME);
 
         if ($filePath === false) {
-            throw new RuntimeException(
-                $filePath . ' does not exist.'
-            );
+            throw new RuntimeException($filePath . ' does not exist.');
         }
+
         return $filePath;
     }
 }
