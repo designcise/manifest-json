@@ -135,26 +135,19 @@ class ManifestJsonTest extends TestCase
 
     /**
      * @runInSeparateProcess
+     *
      * @throws \ReflectionException
      */
     public function testGetAllByTypeGetsFromCachedResultsOnRepeatCalls(): void
     {
-        $expected = [
-            'blog.css' => 'css/blog.ef6c1e1242cc8cdc5891.css',
-            'index.css' => 'css/index.ef6c1e1242cc8cdc5891.css',
-            'vendors~blog.css' => 'css/vendors~blog.ef6c1e1242cc8cdc5891.css',
-        ];
-        $css = $this->manifest->getAllByType('css');
+        $expected = ['foobar.css' => 'foo.bar1234.css'];
 
         $manifestReflection = new ReflectionObject($this->manifest);
-        $metadata = $manifestReflection->getProperty('metadata');
+        $metadata = $manifestReflection->getProperty('typedMetadata');
         $metadata->setAccessible(true);
-        $metadata->setValue($this->manifest, array_merge(
-            $metadata->getValue($this->manifest),
-            ['new' => 'value']
-        ));
+        $metadata->setValue($this->manifest, ['css' => $expected]);
 
-        $this->assertSame($expected, $css);
+        $this->assertSame($expected, $this->manifest->getAllByType('css'));
     }
 
     public function typesProvider(): array

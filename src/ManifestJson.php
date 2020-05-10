@@ -32,7 +32,7 @@ class ManifestJson
 
     private array $metadata;
 
-    private array $typedMetaData;
+    private array $typedMetadata;
 
     /**
      * @param string $dir
@@ -69,15 +69,15 @@ class ManifestJson
 
     public function getAllByType(string $type): array
     {
-        if (isset($this->typedMetaData[$type])) {
-            return $this->typedMetaData[$type];
+        if (isset($this->typedMetadata[$type])) {
+            return $this->typedMetadata[$type];
         }
 
-        $this->typedMetaData[$type] = array_filter($this->metadata, fn (string $fileName) => (
+        $this->typedMetadata[$type] = array_filter($this->metadata, fn (string $fileName) => (
             $type === pathinfo($fileName, PATHINFO_EXTENSION)
         ), ARRAY_FILTER_USE_KEY);
 
-        return $this->typedMetaData[$type];
+        return $this->typedMetadata[$type];
     }
 
     public function getAllByTypes(array $types): array
