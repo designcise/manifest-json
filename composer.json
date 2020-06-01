@@ -1,6 +1,5 @@
 {
     "name": "designcise/manifest-json",
-	"version": "1.0.0",
     "type": "library",
     "description": "manifest.json parser/loader for PHP",
     "license": "MIT",
