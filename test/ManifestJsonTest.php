@@ -78,6 +78,7 @@ class ManifestJsonTest extends TestCase
             'blog.js' => 'js/blog.ef6c1e1242cc8cdc5891.js',
             'index.css' => 'css/index.ef6c1e1242cc8cdc5891.css',
             'index.js' => 'js/index.ef6c1e1242cc8cdc5891.js',
+            'blog~index.js' => 'js/blog~index.ef6c5464563231231.js',
             'vendors~blog.css' => 'css/vendors~blog.ef6c1e1242cc8cdc5891.css',
             'vendors~blog.js' => 'js/vendors~blog.ef6c1e1242cc8cdc5891.js',
             'img/bg.jpg' => 'img/bg.jpg',
@@ -104,6 +105,7 @@ class ManifestJsonTest extends TestCase
                     'vendors~blog~index.js' => 'js/vendors~blog~index.ef6c1e1242cc8cdc5891.js',
                     'blog.js' => 'js/blog.ef6c1e1242cc8cdc5891.js',
                     'index.js' => 'js/index.ef6c1e1242cc8cdc5891.js',
+                    'blog~index.js' => 'js/blog~index.ef6c5464563231231.js',
                     'vendors~blog.js' => 'js/vendors~blog.ef6c1e1242cc8cdc5891.js',
                 ]
             ],
@@ -165,6 +167,7 @@ class ManifestJsonTest extends TestCase
                         'vendors~blog~index.js' => 'js/vendors~blog~index.ef6c1e1242cc8cdc5891.js',
                         'blog.js' => 'js/blog.ef6c1e1242cc8cdc5891.js',
                         'index.js' => 'js/index.ef6c1e1242cc8cdc5891.js',
+                        'blog~index.js' => 'js/blog~index.ef6c5464563231231.js',
                         'vendors~blog.js' => 'js/vendors~blog.ef6c1e1242cc8cdc5891.js',
                     ],
                 ]
