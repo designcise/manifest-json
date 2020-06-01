@@ -16,6 +16,7 @@ $entry = $mainfest->get('entry.js');
 $metadata = $mainfest->getAll();
 $css = $mainfest->getAllByType('css');
 $images = $mainfest->getAllByTypes(['jpg', 'png']);
+$js = $mainfest->getAllByKey('*.js');
 ```
 
 ## API
@@ -35,6 +36,10 @@ Gets all files with the specified file extension (for e.g. `css`, `js`, etc.) as
 ### `getAllByTypes(array $types): array`
 
 Gets all files with the specified file extensions (e.g. `['css', 'js']`, etc.) as an array.
+
+### `getAllByKey(string $key): array`
+
+Gets all files that match the specified key. Can optionally have wildcard using asterisk (e.g. `*.js`, `*index*`, etc.).
 
 ## Tests
 
