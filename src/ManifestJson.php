@@ -20,6 +20,8 @@ use function json_decode;
 use function array_filter;
 use function pathinfo;
 use function str_replace;
+use function preg_quote;
+use function preg_match;
 
 use const JSON_THROW_ON_ERROR;
 use const ARRAY_FILTER_USE_KEY;
@@ -89,6 +91,16 @@ class ManifestJson
         }
 
         return $manifest;
+    }
+
+    public function getAllByKey(string $key): array
+    {
+        $pattern = preg_quote($key,'/');
+        $pattern = '/^' . str_replace( '\*' , '.*', $pattern) . '$/i';
+
+        return array_filter($this->metadata, fn (string $fileName) => (
+            preg_match($pattern, $fileName)
+        ), ARRAY_FILTER_USE_KEY);
     }
 
     /**

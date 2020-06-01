@@ -116,7 +116,7 @@ class ManifestJsonTest extends TestCase
             'png images' => [
                 'png',
                 [
-                    'img/logo.png' => 'img/logo.png'
+                    'img/logo.png' => 'img/logo.png',
                 ]
             ],
         ];
@@ -203,5 +203,73 @@ class ManifestJsonTest extends TestCase
     public function testGetAllByTypes(array $types, array $expected): void
     {
         $this->assertSame($expected, $this->manifest->getAllByTypes($types));
+    }
+
+    public function keysProvider(): array
+    {
+        return [
+            'css files' => [
+                '*blog*.css',
+                [
+                    'blog.css' => 'css/blog.ef6c1e1242cc8cdc5891.css',
+                    'vendors~blog.css' => 'css/vendors~blog.ef6c1e1242cc8cdc5891.css',
+                ]
+            ],
+            'js files' => [
+                '*index*.js',
+                [
+                    'vendors~blog~index.js' => 'js/vendors~blog~index.ef6c1e1242cc8cdc5891.js',
+                    'index.js' => 'js/index.ef6c1e1242cc8cdc5891.js',
+                    'blog~index.js' => 'js/blog~index.ef6c5464563231231.js',
+                ]
+            ],
+            'mix files' => [
+                '*blog*',
+                [
+                    'vendors~blog~index.js' => 'js/vendors~blog~index.ef6c1e1242cc8cdc5891.js',
+                    'blog.css' => 'css/blog.ef6c1e1242cc8cdc5891.css',
+                    'blog.js' => 'js/blog.ef6c1e1242cc8cdc5891.js',
+                    'blog~index.js' => 'js/blog~index.ef6c5464563231231.js',
+                    'vendors~blog.css' => 'css/vendors~blog.ef6c1e1242cc8cdc5891.css',
+                    'vendors~blog.js' => 'js/vendors~blog.ef6c1e1242cc8cdc5891.js',
+                ]
+            ],
+            'exact match' => [
+                'vendors~blog~index.js',
+                [
+                    'vendors~blog~index.js' => 'js/vendors~blog~index.ef6c1e1242cc8cdc5891.js',
+                ]
+            ],
+            'jpg images' => [
+                '*.jpg',
+                [
+                    'img/bg.jpg' => 'img/bg.jpg',
+                ]
+            ],
+            'png images' => [
+                '*.png',
+                [
+                    'img/logo.png' => 'img/logo.png',
+                ]
+            ],
+            'ending with letter' => [
+                '*g',
+                [
+                    'img/bg.jpg' => 'img/bg.jpg',
+                    'img/logo.png' => 'img/logo.png',
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider keysProvider
+     *
+     * @param string $key
+     * @param array $expected
+     */
+    public function testGetAllByKey(string $key, array $expected): void
+    {
+        $this->assertSame($expected, $this->manifest->getAllByKey($key));
     }
 }
