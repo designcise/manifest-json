@@ -31,6 +31,12 @@ class ManifestJsonTest extends TestCase
         $this->manifest = new ManifestJson(self::ASSETS_DIR);
     }
 
+    public function testStaticFrom(): void
+    {
+        $manifest = ManifestJson::from(self::ASSETS_DIR);
+        $this->assertTrue($manifest->has('vendors~blog~index.js'));
+    }
+
     public function testInstantiatingWithNonExistentPathShouldThrowException(): void
     {
         $this->expectException(RuntimeException::class);

@@ -39,6 +39,19 @@ class ManifestJson
     /**
      * @param string $dir
      *
+     * @return $this
+     *
+     * @throws RuntimeException
+     * @throws \JsonException
+     */
+    public static function from(string $dir): self
+    {
+        return new self($dir);
+    }
+
+    /**
+     * @param string $dir
+     *
      * @throws RuntimeException
      * @throws \JsonException
      */

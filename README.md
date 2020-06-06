@@ -21,6 +21,14 @@ $js = $mainfest->getAllByKey('*.js');
 
 ## API
 
+### `static from(string $dir): self`
+
+Static method to load `manifest.json` file from specified directory; for example:
+
+```php
+ManifestJson::from('path/to/manifest/');
+```
+
 ### `get(string $key): string`
 
 Gets the `manifest.json` metadata for the specified `$key`.
