@@ -59,12 +59,13 @@ Gets all files that match the specified key. Can optionally have wildcard using 
 
 To run the tests you can use the following commands:
 
-| Command          | Type            |
-| ---------------- |:---------------:|
-| `composer test`  | PHPUnit tests   |
-| `composer style` | CodeSniffer     |
-| `composer md`    | MessDetector    |
-| `composer check` | PHPStan         |
+| Command             | Type             |
+| ------------------- |:----------------:|
+| `composer test`     | PHPUnit tests    |
+| `composer style`    | CodeSniffer      |
+| `composer style-fix`| CodeSniffer Fixer|
+| `composer md`       | MessDetector     |
+| `composer check`    | PHPStan          |
 
 ## Contributing
 
