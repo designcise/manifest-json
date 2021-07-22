@@ -1,7 +1,7 @@
 # Designcise\ManifestJson
 
-[![codecov](https://codecov.io/gh/designcise/manifest-json/branch/master/graph/badge.svg)](https://codecov.io/gh/designcise/manifest-json)
-[![Build Status](https://travis-ci.org/designcise/manifest-json.svg?branch=master)](https://travis-ci.org/designcise/manifest-json)
+[![codecov](https://codecov.io/gh/designcise/manifest-json/branch/master/graph/badge.svg?token=XUM5LZlXOz)](https://codecov.io/gh/designcise/manifest-json)
+[![Build Status](https://travis-ci.com/designcise/manifest-json.svg?branch=master)](https://travis-ci.com/designcise/manifest-json)
 
 PHP `manifest.json` parser/loader.
 
