@@ -5,6 +5,12 @@
 
 PHP `manifest.json` parser/loader.
 
+## Installing
+
+```shell
+composer require designcise/manifest-json
+```
+
 ## Example
 
 ```php

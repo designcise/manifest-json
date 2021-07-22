@@ -2,7 +2,7 @@
 
 /**
  * @author    Daniyal Hamid
- * @copyright Copyright (c) 2020 Daniyal Hamid (https://designcise.com)
+ * @copyright Copyright (c) 2020-2021 Daniyal Hamid (https://designcise.com)
  *
  * @license   https://opensource.org/licenses/MIT MIT License
  */
@@ -39,14 +39,14 @@ class ManifestJson
     /**
      * @param string $dir
      *
-     * @return $this
+     * @return static
      *
      * @throws RuntimeException
      * @throws \JsonException
      */
-    public static function from(string $dir): self
+    public static function from(string $dir): static
     {
-        return new self($dir);
+        return new static($dir);
     }
 
     /**
@@ -68,13 +68,9 @@ class ManifestJson
 
     public function get(string $key): string
     {
-        if (! $this->has($key)) {
-            throw new InvalidArgumentException(
-                'Manifest key "' . $key . '" does not exist.'
-            );
-        }
-
-        return $this->metadata[$key];
+        return ($this->has($key))
+            ? $this->metadata[$key]
+            : throw new InvalidArgumentException('Manifest key "' . $key . '" does not exist.');
     }
 
     public function getAll(): array
@@ -108,8 +104,8 @@ class ManifestJson
 
     public function getAllByKey(string $key): array
     {
-        $pattern = preg_quote($key,'/');
-        $pattern = '/^' . str_replace( '\*' , '.*', $pattern) . '$/i';
+        $pattern = preg_quote($key, '/');
+        $pattern = '/^' . str_replace('\*', '.*', $pattern) . '$/i';
 
         return array_filter($this->metadata, fn (string $fileName) => (
             preg_match($pattern, $fileName)
@@ -142,10 +138,6 @@ class ManifestJson
         $dir = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $dir);
         $filePath = realpath($dir . DIRECTORY_SEPARATOR . self::MANIFEST_FILE_NAME);
 
-        if ($filePath === false) {
-            throw new RuntimeException($filePath . ' does not exist.');
-        }
-
-        return $filePath;
+        return $filePath ?: throw new RuntimeException($filePath . ' does not exist.');
     }
 }
