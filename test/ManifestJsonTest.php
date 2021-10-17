@@ -314,17 +314,45 @@ class ManifestJsonTest extends TestCase
         $this->assertSame($expected, $this->manifest->getAllByKey($key));
     }
 
-    public function keyEndingWithProvider(): array
+    public function filenameProvider(): array
     {
+        $testCases = $this->keysProvider();
+        unset($testCases['all image files']);
+
         return array_merge(
-           $this->keysProvider(),
+            $testCases,
             [
-                'all image files' => [
-                    'img/*',
+                'does not match when path is provided' => [
+                    'img/*', []
+                ],
+                'does not match filename if no wildcard or not exact' => [
+                    'header', []
+                ],
+                'matches partial filename' => [
+                    '*der*',
                     [
-                        'img/bg.jpg' => 'img/bg.jpg',
-                        'img/logo.png' => 'img/logo.png',
                         'gallery/img/header.png' => 'img/header.png',
+                    ]
+                ],
+                'matches filename starting with' => [
+                    'index*',
+                    [
+                        'index.css' => 'css/index.ef6c1e1242cc8cdc5891.css',
+                        'index.js' => 'js/index.ef6c1e1242cc8cdc5891.js',
+                    ]
+                ],
+                'matches filename ending with' => [
+                    '*index.js',
+                    [
+                        'vendors~blog~index.js' => 'js/vendors~blog~index.ef6c1e1242cc8cdc5891.js',
+                        'index.js' => 'js/index.ef6c1e1242cc8cdc5891.js',
+                        'blog~index.js' => 'js/blog~index.ef6c5464563231231.js',
+                    ]
+                ],
+                'matches exact filename' => [
+                    'index.js',
+                    [
+                        'index.js' => 'js/index.ef6c1e1242cc8cdc5891.js',
                     ]
                 ],
             ]
@@ -332,13 +360,13 @@ class ManifestJsonTest extends TestCase
     }
 
     /**
-     * @dataProvider keyEndingWithProvider
+     * @dataProvider filenameProvider
      *
      * @param string $key
      * @param array $expected
      */
-    public function testGetAllByKeyEndingWith(string $key, array $expected): void
+    public function testGetAllByFilename(string $key, array $expected): void
     {
-        $this->assertSame($expected, $this->manifest->getAllByKeyEndingWith($key));
+        $this->assertSame($expected, $this->manifest->getAllByFilename($key));
     }
 }

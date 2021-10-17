@@ -84,8 +84,8 @@ class ManifestJson
             return $this->typedMetadata[$type];
         }
 
-        $this->typedMetadata[$type] = array_filter($this->metadata, fn (string $filename) => (
-            $type === pathinfo($filename, PATHINFO_EXTENSION)
+        $this->typedMetadata[$type] = array_filter($this->metadata, fn (string $key) => (
+            $type === pathinfo($key, PATHINFO_EXTENSION)
         ), ARRAY_FILTER_USE_KEY);
 
         return $this->typedMetadata[$type];
@@ -107,19 +107,20 @@ class ManifestJson
         $pattern = preg_quote($key, '/');
         $pattern = '/^' . str_replace('\*', '.*', $pattern) . '$/i';
 
-        return array_filter($this->metadata, fn (string $filename) => (
-            preg_match($pattern, $filename)
+        return array_filter($this->metadata, fn (string $key) => (
+            preg_match($pattern, $key)
         ), ARRAY_FILTER_USE_KEY);
     }
 
-    public function getAllByKeyEndingWith(string $key): array
+    public function getAllByFilename(string $key): array
     {
         $pattern = preg_quote($key, '/');
-        $pattern = '/' . str_replace('\*', '.*', $pattern) . '$/i';
+        $pattern = '/^' . str_replace('\*', '.*', $pattern) . '$/i';
 
-        return array_filter($this->metadata, fn (string $filename) => (
-            preg_match($pattern, $filename)
-        ), ARRAY_FILTER_USE_KEY);
+        return array_filter($this->metadata, function (string $key) use ($pattern) {
+            $filename = basename($key);
+            return preg_match($pattern, $filename);
+        }, ARRAY_FILTER_USE_KEY);
     }
 
     /**
