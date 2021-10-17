@@ -246,6 +246,21 @@ class ManifestJsonTest extends TestCase
                     'vendors~blog.js' => 'js/vendors~blog.ef6c1e1242cc8cdc5891.js',
                 ]
             ],
+            'all files' => [
+                '*',
+                [
+                    'vendors~blog~index.js' => 'js/vendors~blog~index.ef6c1e1242cc8cdc5891.js',
+                    'blog.css' => 'css/blog.ef6c1e1242cc8cdc5891.css',
+                    'blog.js' => 'js/blog.ef6c1e1242cc8cdc5891.js',
+                    'index.css' => 'css/index.ef6c1e1242cc8cdc5891.css',
+                    'index.js' => 'js/index.ef6c1e1242cc8cdc5891.js',
+                    'blog~index.js' => 'js/blog~index.ef6c5464563231231.js',
+                    'vendors~blog.css' => 'css/vendors~blog.ef6c1e1242cc8cdc5891.css',
+                    'vendors~blog.js' => 'js/vendors~blog.ef6c1e1242cc8cdc5891.js',
+                    'img/bg.jpg' => 'img/bg.jpg',
+                    'img/logo.png' => 'img/logo.png',
+                ]
+            ],
             'exact match' => [
                 'vendors~blog~index.js',
                 [
@@ -266,6 +281,13 @@ class ManifestJsonTest extends TestCase
             ],
             'ending with letter' => [
                 '*g',
+                [
+                    'img/bg.jpg' => 'img/bg.jpg',
+                    'img/logo.png' => 'img/logo.png',
+                ]
+            ],
+            'all image files' => [
+                'img/*',
                 [
                     'img/bg.jpg' => 'img/bg.jpg',
                     'img/logo.png' => 'img/logo.png',

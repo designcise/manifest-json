@@ -105,7 +105,7 @@ class ManifestJson
     public function getAllByKey(string $key): array
     {
         $pattern = preg_quote($key, '/');
-        $pattern = '/^' . str_replace('\*', '.*', $pattern) . '$/i';
+        $pattern = '/' . str_replace('\*', '.*', $pattern) . '$/i';
 
         return array_filter($this->metadata, fn (string $fileName) => (
             preg_match($pattern, $fileName)
