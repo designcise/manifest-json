@@ -93,7 +93,8 @@ class ManifestJsonTest extends TestCase
             'vendors~blog.css' => 'css/vendors~blog.ef6c1e1242cc8cdc5891.css',
             'vendors~blog.js' => 'js/vendors~blog.ef6c1e1242cc8cdc5891.js',
             'img/bg.jpg' => 'img/bg.jpg',
-            'img/logo.png' => 'img/logo.png'
+            'img/logo.png' => 'img/logo.png',
+            'gallery/img/header.png' => 'img/header.png',
         ];
 
         $this->assertSame($expected, $this->manifest->getAll());
@@ -130,6 +131,7 @@ class ManifestJsonTest extends TestCase
                 'png',
                 [
                     'img/logo.png' => 'img/logo.png',
+                    'gallery/img/header.png' => 'img/header.png',
                 ]
             ],
         ];
@@ -189,6 +191,7 @@ class ManifestJsonTest extends TestCase
                     ],
                     'png' => [
                         'img/logo.png' => 'img/logo.png',
+                        'gallery/img/header.png' => 'img/header.png',
                     ],
                 ]
             ],
@@ -197,6 +200,7 @@ class ManifestJsonTest extends TestCase
                 [
                     'png' => [
                         'img/logo.png' => 'img/logo.png',
+                        'gallery/img/header.png' => 'img/header.png',
                     ],
                     'jpg' => [
                         'img/bg.jpg' => 'img/bg.jpg',
@@ -259,6 +263,7 @@ class ManifestJsonTest extends TestCase
                     'vendors~blog.js' => 'js/vendors~blog.ef6c1e1242cc8cdc5891.js',
                     'img/bg.jpg' => 'img/bg.jpg',
                     'img/logo.png' => 'img/logo.png',
+                    'gallery/img/header.png' => 'img/header.png',
                 ]
             ],
             'exact match' => [
@@ -277,6 +282,7 @@ class ManifestJsonTest extends TestCase
                 '*.png',
                 [
                     'img/logo.png' => 'img/logo.png',
+                    'gallery/img/header.png' => 'img/header.png',
                 ]
             ],
             'ending with letter' => [
@@ -284,6 +290,7 @@ class ManifestJsonTest extends TestCase
                 [
                     'img/bg.jpg' => 'img/bg.jpg',
                     'img/logo.png' => 'img/logo.png',
+                    'gallery/img/header.png' => 'img/header.png',
                 ]
             ],
             'all image files' => [
@@ -305,5 +312,33 @@ class ManifestJsonTest extends TestCase
     public function testGetAllByKey(string $key, array $expected): void
     {
         $this->assertSame($expected, $this->manifest->getAllByKey($key));
+    }
+
+    public function keyEndingWithProvider(): array
+    {
+        return array_merge(
+           $this->keysProvider(),
+            [
+                'all image files' => [
+                    'img/*',
+                    [
+                        'img/bg.jpg' => 'img/bg.jpg',
+                        'img/logo.png' => 'img/logo.png',
+                        'gallery/img/header.png' => 'img/header.png',
+                    ]
+                ],
+            ]
+        );
+    }
+
+    /**
+     * @dataProvider keyEndingWithProvider
+     *
+     * @param string $key
+     * @param array $expected
+     */
+    public function testGetAllByKeyEndingWith(string $key, array $expected): void
+    {
+        $this->assertSame($expected, $this->manifest->getAllByKeyEndingWith($key));
     }
 }

@@ -23,6 +23,7 @@ $metadata = $mainfest->getAll();
 $css = $mainfest->getAllByType('css');
 $images = $mainfest->getAllByTypes(['jpg', 'png']);
 $js = $mainfest->getAllByKey('*.js');
+$js = $mainfest->getAllByKeyEndingWith('critical-*.js');
 ```
 
 ## API
@@ -54,6 +55,10 @@ Gets all files with the specified file extensions (e.g. `['css', 'js']`, etc.) a
 ### `getAllByKey(string $key): array`
 
 Gets all files that match the specified key. Can optionally have wildcard using asterisk (e.g. `*.js`, `*index*`, etc.).
+
+### `getAllByKeyEndingWith(string $key): array`
+
+Gets all files that match the key ending with the specified word. Can optionally have wildcard using asterisk (e.g. `static/*.js`, `critical*`, etc.).
 
 ## Tests
 
