@@ -23,7 +23,7 @@ $metadata = $mainfest->getAll();
 $css = $mainfest->getAllByType('css');
 $images = $mainfest->getAllByTypes(['jpg', 'png']);
 $js = $mainfest->getAllByKey('*.js');
-$js = $mainfest->getAllByKeyEndingWith('critical-*.js');
+$criticalJs = $mainfest->getAllByKeyEndingWith('critical-*.js');
 ```
 
 ## API
