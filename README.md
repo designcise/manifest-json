@@ -54,11 +54,11 @@ Gets all files with the specified file extensions (e.g. `['css', 'js']`, etc.) a
 
 ### `getAllByKey(string $key): array`
 
-Gets all files that match the specified key. Can optionally have wildcard using asterisk (e.g. `*.js`, `*index*`, etc.).
+Gets all files that match the specified key. It can optionally have wildcard using asterisk (e.g. `*.js`, `*index*`, etc.).
 
 ### `getAllByKeyEndingWith(string $key): array`
 
-Gets all files that match the key ending with the specified word. Can optionally have wildcard using asterisk (e.g. `static/*.js`, `critical*`, etc.).
+Gets all files that match the key ending with the specified word (i.e. makes anything to the left-side of the specified word optional). It can optionally have wildcard using asterisk (e.g. `static/*.js`, `index*`, etc.).
 
 ## Tests
 
