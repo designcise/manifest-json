@@ -112,7 +112,7 @@ class ManifestJson
         ), ARRAY_FILTER_USE_KEY);
     }
 
-    public function getAllByBasename(string $key): array
+    public function getAllByKeyBasename(string $key): array
     {
         $pattern = preg_quote($key, '/');
         $pattern = '/^' . str_replace('\*', '.*', $pattern) . '$/i';

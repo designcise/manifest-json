@@ -365,8 +365,8 @@ class ManifestJsonTest extends TestCase
      * @param string $key
      * @param array $expected
      */
-    public function testGetAllByBasename(string $key, array $expected): void
+    public function testGetAllByKeyBasename(string $key, array $expected): void
     {
-        $this->assertSame($expected, $this->manifest->getAllByBasename($key));
+        $this->assertSame($expected, $this->manifest->getAllByKeyBasename($key));
     }
 }
