@@ -314,7 +314,7 @@ class ManifestJsonTest extends TestCase
         $this->assertSame($expected, $this->manifest->getAllByKey($key));
     }
 
-    public function filenameProvider(): array
+    public function keyBasenameProvider(): array
     {
         $testCases = $this->keysProvider();
         unset($testCases['all image files']);
@@ -360,13 +360,13 @@ class ManifestJsonTest extends TestCase
     }
 
     /**
-     * @dataProvider filenameProvider
+     * @dataProvider keyBasenameProvider
      *
      * @param string $key
      * @param array $expected
      */
-    public function testGetAllByFilename(string $key, array $expected): void
+    public function testGetAllByBasename(string $key, array $expected): void
     {
-        $this->assertSame($expected, $this->manifest->getAllByFilename($key));
+        $this->assertSame($expected, $this->manifest->getAllByBasename($key));
     }
 }

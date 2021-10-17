@@ -23,7 +23,7 @@ $metadata = $mainfest->getAll();
 $css = $mainfest->getAllByType('css');
 $images = $mainfest->getAllByTypes(['jpg', 'png']);
 $js = $mainfest->getAllByKey('*.js');
-$criticalJs = $mainfest->getAllByFilename('critical-*.js');
+$criticalJs = $mainfest->getAllByBasename('critical-*.js');
 ```
 
 ## API
@@ -56,9 +56,9 @@ Gets all files with the specified file extensions (e.g. `['css', 'js']`, etc.) a
 
 Gets all files that match the specified key. It looks for a full match in the manifest entries' key. It can optionally have wildcard using asterisk (e.g. `*.js`, `*index*`, etc.).
 
-### `getAllByFilename(string $key): array`
+### `getAllByBasename(string $key): array`
 
-Gets all files that match the specified filename. It ignores the file path in the manifest entries' key. It can optionally have wildcard using asterisk (e.g. `*.js`, `index*`, etc.).
+Gets all files that match the trailing name component of path in the manifest entry's key. It can optionally have wildcard using asterisk (e.g. `*.js`, `index*`, etc.).
 
 ## Tests
 
