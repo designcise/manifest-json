@@ -16,14 +16,14 @@ composer require designcise/manifest-json
 ```php
 use Designcise\ManifestJson\ManifestJson;
 
-$mainfest = new ManifestJson('path/to/manifest/');
+$manifest = new ManifestJson('path/to/manifest/');
 
-$entry = $mainfest->get('entry.js');
-$metadata = $mainfest->getAll();
-$css = $mainfest->getAllByType('css');
-$images = $mainfest->getAllByTypes(['jpg', 'png']);
-$js = $mainfest->getAllByKey('*.js');
-$criticalJs = $mainfest->getAllByKeyBasename('critical-*.js');
+$entry = $manifest->get('entry.js');
+$metadata = $manifest->getAll();
+$css = $manifest->getAllByType('css');
+$images = $manifest->getAllByTypes(['jpg', 'png']);
+$js = $manifest->getAllByKey('*.js');
+$criticalJs = $manifest->getAllByKeyBasename('critical-*.js');
 ```
 
 ## API
