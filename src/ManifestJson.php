@@ -54,7 +54,7 @@ class ManifestJson
 
     public function get(string $key): string
     {
-        return $this->metadata[$key] ?? throw new InvalidArgumentException('Manifest key "' . $key . '" does not exist.');
+        return $this->metadata[$key] ?? throw new InvalidArgumentException("Manifest key \"$key\" does not exist.");
     }
 
     public function getAll(): array
@@ -114,7 +114,7 @@ class ManifestJson
 
             return json_decode($fileContents, true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
-            throw new RuntimeException('Error parsing JSON: ' . $e->getMessage());
+            throw new RuntimeException("Error parsing JSON: {$e->getMessage()}");
         }
     }
 
@@ -123,6 +123,6 @@ class ManifestJson
         $dir = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $dir);
         $filePath = realpath($dir . DIRECTORY_SEPARATOR . self::MANIFEST_FILE_NAME);
 
-        return $filePath ?: throw new RuntimeException($filePath . ' does not exist.');
+        return $filePath ?: throw new RuntimeException("$filePath does not exist.");
     }
 }
