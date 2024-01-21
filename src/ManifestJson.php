@@ -29,8 +29,7 @@ use const PATHINFO_EXTENSION;
 
 class ManifestJson
 {
-    /** @var string */
-    private const MANIFEST_FILE_NAME = 'manifest.json';
+    private const string MANIFEST_FILE_NAME = 'manifest.json';
 
     private array $metadata;
 
