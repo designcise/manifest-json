@@ -36,23 +36,11 @@ class ManifestJson
 
     private array $typedMetadata;
 
-    /**
-     * @param string $dir
-     *
-     * @return static
-     *
-     * @throws RuntimeException
-     */
     public static function from(string $dir): static
     {
         return new static($dir);
     }
 
-    /**
-     * @param string $dir
-     *
-     * @throws RuntimeException
-     */
     public function __construct(string $dir)
     {
         $filePath = $this->createFilePathByDirectory($dir);
@@ -119,11 +107,6 @@ class ManifestJson
         }, ARRAY_FILTER_USE_KEY);
     }
 
-    /**
-     * @param string $filePath
-     *
-     * @return array
-     */
     private function getParsedMetadata(string $filePath): array
     {
         try {
@@ -135,13 +118,6 @@ class ManifestJson
         }
     }
 
-    /**
-     * @param string $dir
-     *
-     * @return string
-     *
-     * @throws RuntimeException
-     */
     private function createFilePathByDirectory(string $dir): string
     {
         $dir = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $dir);
