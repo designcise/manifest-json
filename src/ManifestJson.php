@@ -36,7 +36,7 @@ class ManifestJson
 
     private array $metadata;
 
-    private array $typedMetadata;
+    private array $typedMetadata = [];
 
     public static function from(string $dir, string $fileName = self::DEFAULT_MANIFEST_FILENAME): static
     {
