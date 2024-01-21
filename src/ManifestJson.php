@@ -2,7 +2,7 @@
 
 /**
  * @author    Daniyal Hamid
- * @copyright Copyright (c) 2020-2021 Daniyal Hamid (https://designcise.com)
+ * @copyright Copyright (c) 2020-2024 Daniyal Hamid (https://designcise.com)
  *
  * @license   https://opensource.org/licenses/MIT MIT License
  */
@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Designcise\ManifestJson;
 
 use RuntimeException;
+use JsonException;
 use InvalidArgumentException;
 
 use function file_get_contents;
@@ -29,34 +30,22 @@ use const PATHINFO_EXTENSION;
 
 class ManifestJson
 {
-    /** @var string */
-    private const MANIFEST_FILE_NAME = 'manifest.json';
+    private const string DEFAULT_MANIFEST_FILENAME = 'manifest.json';
+
+    private string $fileName;
 
     private array $metadata;
 
-    private array $typedMetadata;
+    private array $typedMetadata = [];
 
-    /**
-     * @param string $dir
-     *
-     * @return static
-     *
-     * @throws RuntimeException
-     * @throws \JsonException
-     */
-    public static function from(string $dir): static
+    public static function from(string $dir, string $fileName = self::DEFAULT_MANIFEST_FILENAME): static
     {
-        return new static($dir);
+        return new static($dir, $fileName);
     }
 
-    /**
-     * @param string $dir
-     *
-     * @throws RuntimeException
-     * @throws \JsonException
-     */
-    public function __construct(string $dir)
+    public function __construct(string $dir, string $fileName = self::DEFAULT_MANIFEST_FILENAME)
     {
+        $this->fileName = $fileName;
         $filePath = $this->createFilePathByDirectory($dir);
         $this->metadata = $this->getParsedMetadata($filePath);
     }
@@ -68,9 +57,7 @@ class ManifestJson
 
     public function get(string $key): string
     {
-        return ($this->has($key))
-            ? $this->metadata[$key]
-            : throw new InvalidArgumentException('Manifest key "' . $key . '" does not exist.');
+        return $this->metadata[$key] ?? throw new InvalidArgumentException("Manifest key \"$key\" does not exist.");
     }
 
     public function getAll(): array
@@ -104,51 +91,42 @@ class ManifestJson
 
     public function getAllByKey(string $key): array
     {
-        $pattern = preg_quote($key, '/');
-        $pattern = '/^' . str_replace('\*', '.*', $pattern) . '$/i';
-
-        return array_filter($this->metadata, fn (string $key) => (
-            preg_match($pattern, $key)
-        ), ARRAY_FILTER_USE_KEY);
+        return $this->filterByKey($key, fn (string $currKey, string $pattern) => preg_match($pattern, $currKey));
     }
 
     public function getAllByKeyBasename(string $key): array
     {
-        $pattern = preg_quote($key, '/');
-        $pattern = '/^' . str_replace('\*', '.*', $pattern) . '$/i';
-
-        return array_filter($this->metadata, function (string $key) use ($pattern) {
-            $filename = basename($key);
-            return preg_match($pattern, $filename);
-        }, ARRAY_FILTER_USE_KEY);
+        return $this->filterByKey($key, fn (string $currKey, string $pattern) => (
+            preg_match($pattern, basename($currKey))
+        ));
     }
 
-    /**
-     * @param string $filePath
-     *
-     * @return array
-     *
-     * @throws \JsonException
-     */
     private function getParsedMetadata(string $filePath): array
     {
-        $fileContents = file_get_contents($filePath);
+        try {
+            $fileContents = file_get_contents($filePath);
 
-        return json_decode($fileContents, true, 512, JSON_THROW_ON_ERROR);
+            return json_decode($fileContents, true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            throw new RuntimeException("Error parsing JSON: {$e->getMessage()}");
+        }
     }
 
-    /**
-     * @param string $dir
-     *
-     * @return string
-     *
-     * @throws RuntimeException
-     */
     private function createFilePathByDirectory(string $dir): string
     {
         $dir = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $dir);
-        $filePath = realpath($dir . DIRECTORY_SEPARATOR . self::MANIFEST_FILE_NAME);
+        $filePath = realpath($dir . DIRECTORY_SEPARATOR . $this->fileName);
 
-        return $filePath ?: throw new RuntimeException($filePath . ' does not exist.');
+        return $filePath ?: throw new RuntimeException("$filePath does not exist.");
+    }
+
+    private function filterByKey(string $key, callable $filterFn): array
+    {
+        $pattern = preg_quote($key, '/');
+        $pattern = '/^' . str_replace('\*', '.*', $pattern) . '$/i';
+
+        return array_filter($this->metadata, fn (string $currKey) => (
+            $filterFn($currKey, $pattern)
+        ), ARRAY_FILTER_USE_KEY);
     }
 }

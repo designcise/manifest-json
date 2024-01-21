@@ -1,16 +1,15 @@
 <?php
 
 /**
- * BitFrame Framework (https://www.bitframephp.com)
- *
  * @author    Daniyal Hamid
- * @copyright Copyright (c) 2020-2021 Daniyal Hamid (https://designcise.com)
- * @license   https://bitframephp.com/about/license MIT License
+ * @copyright Copyright (c) 2020-2024 Daniyal Hamid (https://designcise.com)
+ *
+ * @license   https://opensource.org/licenses/MIT MIT License
  */
 
 declare(strict_types=1);
 
-namespace BitFrame\Renderer\Test;
+namespace Designcise\ManifestJson\Test;
 
 use ReflectionObject;
 use PHPUnit\Framework\TestCase;
@@ -33,13 +32,17 @@ class ManifestJsonTest extends TestCase
         $this->manifest = new ManifestJson(self::ASSETS_DIR);
     }
 
-    /**
-     * @throws \JsonException
-     */
     public function testStaticFrom(): void
     {
         $manifest = ManifestJson::from(self::ASSETS_DIR);
         $this->assertTrue($manifest->has('vendors~blog~index.js'));
+    }
+
+    public function testCanParseDifferentFilename(): void
+    {
+        $manifest = ManifestJson::from(self::ASSETS_DIR, 'manifest-dummy.json');
+        $this->assertTrue($manifest->has('vendors~dummy.js'));
+        $this->assertTrue($manifest->has('dummy.css'));
     }
 
     public function testInstantiatingWithNonExistentPathShouldThrowException(): void
