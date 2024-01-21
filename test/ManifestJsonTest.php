@@ -33,13 +33,17 @@ class ManifestJsonTest extends TestCase
         $this->manifest = new ManifestJson(self::ASSETS_DIR);
     }
 
-    /**
-     * @throws \JsonException
-     */
     public function testStaticFrom(): void
     {
         $manifest = ManifestJson::from(self::ASSETS_DIR);
         $this->assertTrue($manifest->has('vendors~blog~index.js'));
+    }
+
+    public function testCanParseDifferentFilename(): void
+    {
+        $manifest = ManifestJson::from(self::ASSETS_DIR, 'manifest-dummy.json');
+        $this->assertTrue($manifest->has('vendors~dummy.js'));
+        $this->assertTrue($manifest->has('dummy.css'));
     }
 
     public function testInstantiatingWithNonExistentPathShouldThrowException(): void
