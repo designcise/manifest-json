@@ -67,9 +67,7 @@ class ManifestJson
 
     public function get(string $key): string
     {
-        return ($this->has($key))
-            ? $this->metadata[$key]
-            : throw new InvalidArgumentException('Manifest key "' . $key . '" does not exist.');
+        return $this->metadata[$key] ?? throw new InvalidArgumentException('Manifest key "' . $key . '" does not exist.');
     }
 
     public function getAll(): array
