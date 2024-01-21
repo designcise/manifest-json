@@ -40,16 +40,37 @@ class ManifestJsonTest extends TestCase
 
     public function testCanParseDifferentFilename(): void
     {
-        $manifest = ManifestJson::from(self::ASSETS_DIR, 'manifest-dummy.json');
+        $manifest = ManifestJson::from(self::ASSETS_DIR . 'manifest-dummy.json');
         $this->assertTrue($manifest->has('vendors~dummy.js'));
         $this->assertTrue($manifest->has('dummy.css'));
+    }
+
+    public function nonExistentFileProvider(): array
+    {
+        return [
+            'file does not exist' => [self::ASSETS_DIR . 'non-existent-manifest.json', 'non-existent-manifest.json'],
+            'path does not exist' => ['non-existent/path/manifest.json', 'manifest.json'],
+        ];
+    }
+
+    /**
+     * @dataProvider nonExistentFileProvider
+     *
+     * @param string $file
+     * @param string $fileName
+     */
+    public function testThrowsErrorForNonExistentManifestFile(string $file, string $fileName): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage("\"$fileName\" does not exist.");
+        ManifestJson::from($file);
     }
 
     public function testJsonErrorIsReported(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Error parsing JSON: Syntax error');
-        ManifestJson::from(self::ASSETS_DIR, 'manifest-invalid.json');
+        ManifestJson::from(self::ASSETS_DIR . 'manifest-invalid.json');
     }
 
     public function testInstantiatingWithNonExistentPathShouldThrowException(): void

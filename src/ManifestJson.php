@@ -30,22 +30,26 @@ use const PATHINFO_EXTENSION;
 
 class ManifestJson
 {
-    private const string DEFAULT_MANIFEST_FILENAME = 'manifest.json';
-
-    private string $fileName;
+    private string $fileName = 'manifest.json';
 
     private array $metadata;
 
     private array $typedMetadata = [];
 
-    public static function from(string $dir, string $fileName = self::DEFAULT_MANIFEST_FILENAME): static
+    public static function from(string $dirOrFile): static
     {
-        return new static($dir, $fileName);
+        return new static($dirOrFile);
     }
 
-    public function __construct(string $dir, string $fileName = self::DEFAULT_MANIFEST_FILENAME)
+    public function __construct(string $dirOrFile)
     {
-        $this->fileName = $fileName;
+        $dir = $dirOrFile;
+
+        if (str_ends_with($dirOrFile, '.json')) {
+            $this->fileName = basename($dirOrFile);
+            $dir = dirname($dirOrFile);
+        }
+
         $filePath = $this->createFilePathByDirectory($dir);
         $this->metadata = $this->getParsedMetadata($filePath);
     }
@@ -117,7 +121,7 @@ class ManifestJson
         $dir = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $dir);
         $filePath = realpath($dir . DIRECTORY_SEPARATOR . $this->fileName);
 
-        return $filePath ?: throw new RuntimeException("$filePath does not exist.");
+        return $filePath ?: throw new RuntimeException("\"{$this->fileName}\" does not exist.");
     }
 
     private function filterByKey(string $key, callable $filterFn): array
