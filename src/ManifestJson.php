@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Designcise\ManifestJson;
 
 use RuntimeException;
+use JsonException;
 use InvalidArgumentException;
 
 use function file_get_contents;
@@ -41,7 +42,6 @@ class ManifestJson
      * @return static
      *
      * @throws RuntimeException
-     * @throws \JsonException
      */
     public static function from(string $dir): static
     {
@@ -52,7 +52,6 @@ class ManifestJson
      * @param string $dir
      *
      * @throws RuntimeException
-     * @throws \JsonException
      */
     public function __construct(string $dir)
     {
@@ -124,14 +123,16 @@ class ManifestJson
      * @param string $filePath
      *
      * @return array
-     *
-     * @throws \JsonException
      */
     private function getParsedMetadata(string $filePath): array
     {
-        $fileContents = file_get_contents($filePath);
+        try {
+            $fileContents = file_get_contents($filePath);
 
-        return json_decode($fileContents, true, 512, JSON_THROW_ON_ERROR);
+            return json_decode($fileContents, true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            throw new RuntimeException('Error parsing JSON: ' . $e->getMessage());
+        }
     }
 
     /**
