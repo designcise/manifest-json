@@ -1,16 +1,15 @@
 <?php
 
 /**
- * BitFrame Framework (https://www.bitframephp.com)
- *
  * @author    Daniyal Hamid
- * @copyright Copyright (c) 2020-2021 Daniyal Hamid (https://designcise.com)
- * @license   https://bitframephp.com/about/license MIT License
+ * @copyright Copyright (c) 2020-2024 Daniyal Hamid (https://designcise.com)
+ *
+ * @license   https://opensource.org/licenses/MIT MIT License
  */
 
 declare(strict_types=1);
 
-namespace BitFrame\Renderer\Test;
+namespace Designcise\ManifestJson\Test;
 
 use ReflectionObject;
 use PHPUnit\Framework\TestCase;
