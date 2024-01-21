@@ -2,7 +2,7 @@
 
 /**
  * @author    Daniyal Hamid
- * @copyright Copyright (c) 2020-2021 Daniyal Hamid (https://designcise.com)
+ * @copyright Copyright (c) 2020-2024 Daniyal Hamid (https://designcise.com)
  *
  * @license   https://opensource.org/licenses/MIT MIT License
  */
