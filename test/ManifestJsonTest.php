@@ -45,6 +45,13 @@ class ManifestJsonTest extends TestCase
         $this->assertTrue($manifest->has('dummy.css'));
     }
 
+    public function testJsonErrorIsReported(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Error parsing JSON: Syntax error');
+        ManifestJson::from(self::ASSETS_DIR, 'manifest-invalid.json');
+    }
+
     public function testInstantiatingWithNonExistentPathShouldThrowException(): void
     {
         $this->expectException(RuntimeException::class);
