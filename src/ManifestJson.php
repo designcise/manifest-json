@@ -88,23 +88,14 @@ class ManifestJson
 
     public function getAllByKey(string $key): array
     {
-        $pattern = preg_quote($key, '/');
-        $pattern = '/^' . str_replace('\*', '.*', $pattern) . '$/i';
-
-        return array_filter($this->metadata, fn (string $key) => (
-            preg_match($pattern, $key)
-        ), ARRAY_FILTER_USE_KEY);
+        return $this->filterByKey($key, fn (string $currKey, string $pattern) => preg_match($pattern, $currKey));
     }
 
     public function getAllByKeyBasename(string $key): array
     {
-        $pattern = preg_quote($key, '/');
-        $pattern = '/^' . str_replace('\*', '.*', $pattern) . '$/i';
-
-        return array_filter($this->metadata, function (string $key) use ($pattern) {
-            $filename = basename($key);
-            return preg_match($pattern, $filename);
-        }, ARRAY_FILTER_USE_KEY);
+        return $this->filterByKey($key, fn (string $currKey, string $pattern) => (
+            preg_match($pattern, basename($currKey))
+        ));
     }
 
     private function getParsedMetadata(string $filePath): array
@@ -124,5 +115,15 @@ class ManifestJson
         $filePath = realpath($dir . DIRECTORY_SEPARATOR . self::MANIFEST_FILE_NAME);
 
         return $filePath ?: throw new RuntimeException("$filePath does not exist.");
+    }
+
+    private function filterByKey(string $key, callable $filterFn): array
+    {
+        $pattern = preg_quote($key, '/');
+        $pattern = '/^' . str_replace('\*', '.*', $pattern) . '$/i';
+
+        return array_filter($this->metadata, fn (string $currKey) => (
+            $filterFn($currKey, $pattern)
+        ), ARRAY_FILTER_USE_KEY);
     }
 }
