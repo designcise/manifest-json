@@ -1,7 +1,8 @@
 # Designcise\ManifestJson
 
-[![codecov](https://codecov.io/gh/designcise/manifest-json/branch/master/graph/badge.svg?token=XUM5LZlXOz)](https://codecov.io/gh/designcise/manifest-json)
-[![Build Status](https://travis-ci.com/designcise/manifest-json.svg?branch=master)](https://travis-ci.com/designcise/manifest-json)
+[![CI](https://github.com/designcise/manifest-json/actions/workflows/ci.yml/badge.svg)](https://github.com/designcise/manifest-json/actions/workflows/ci.yml)
+[![Maintainability](https://api.codeclimate.com/v1/badges/0edb897f673eb368fb73/maintainability)](https://codeclimate.com/github/designcise/manifest-json/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/0edb897f673eb368fb73/test_coverage)](https://codeclimate.com/github/designcise/manifest-json/test_coverage)
 
 PHP `manifest.json` parser/loader.
 
@@ -10,6 +11,9 @@ PHP `manifest.json` parser/loader.
 ```shell
 composer require designcise/manifest-json
 ```
+
+> [!NOTE]  
+> Requires PHP 8.3 or later.
 
 ## Example
 
