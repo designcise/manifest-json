@@ -20,7 +20,8 @@ composer require designcise/manifest-json
 ```php
 use Designcise\ManifestJson\ManifestJson;
 
-$manifest = new ManifestJson('path/to/manifest/');
+$manifest = new ManifestJson('path/to/manifest/'); // defaults to `manifest.json`
+// or $manifest = new ManifestJson('path/to/manifest/my-manifest.json');
 
 $entry = $manifest->get('entry.js');
 $metadata = $manifest->getAll();
@@ -34,7 +35,7 @@ $criticalJs = $manifest->getAllByKeyBasename('critical-*.js');
 
 ### `static from(string $dirOrFile): self`
 
-Static method to load `manifest.json` file (default) from specified directory; for example:
+Static method to load `manifest.json` file from specified directory. If only directory is specified then it is assumed that file name is `manifest.json` by default, otherwise the specified name is used. For example:
 
 ```php
 ManifestJson::from('path/to/manifest/'); // defaults to `manifest.json`
