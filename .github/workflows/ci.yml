@@ -22,8 +22,8 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: 7f7276a02414317829eb37c7cd1bf09eb9d19613c58c2b289f2bf39270e77970
         with:
-          workingDirectory: .github
-          coverageCommand: scripts/run-phpunit.sh
+          workingDirectory: $(System.DefaultWorkingDirectory)
+          coverageCommand: ./.github/scripts/run-phpunit.sh
           coverageLocations: coverage.xml:clover
           debug: true
 
