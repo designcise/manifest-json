@@ -6,10 +6,6 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./scripts
-
     steps:
       - uses: actions/checkout@v4
       - name: Setup PHP
@@ -26,6 +22,7 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: 7f7276a02414317829eb37c7cd1bf09eb9d19613c58c2b289f2bf39270e77970
         with:
+          workingDirectory: ./scripts
           coverageCommand: ./run-phpunit.sh
           coverageLocations: coverage.xml:clover
           debug: true
