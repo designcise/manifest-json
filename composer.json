@@ -24,7 +24,8 @@
         "style-fix": "vendor/bin/phpcbf --standard=PSR12 src",
         "check": "vendor/bin/phpstan analyse src --level=5 -c phpstan.neon",
         "md": "vendor/bin/phpmd src text cleancode,unusedcode,codesize,design,naming",
-        "test": "vendor/bin/phpunit --configuration phpunit.xml --testsuite designcise_manifest_loader"
+        "test": "vendor/bin/phpunit --configuration phpunit.xml --testsuite designcise_manifest_loader",
+        "test-report": "vendor/bin/phpunit --configuration phpunit.xml --testsuite designcise_manifest_loader --coverage-clover=coverage.xml"
     },
     "autoload": {
         "psr-4": {
