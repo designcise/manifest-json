@@ -13,7 +13,7 @@ composer require designcise/manifest-json
 ```
 
 > [!NOTE]  
-> Requires PHP 8.3 or later.
+> Requires PHP 8.0 or later.
 
 ## Example
 
@@ -32,12 +32,13 @@ $criticalJs = $manifest->getAllByKeyBasename('critical-*.js');
 
 ## API
 
-### `static from(string $dir): self`
+### `static from(string $dirOrFile): self`
 
-Static method to load `manifest.json` file from specified directory; for example:
+Static method to load `manifest.json` file (default) from specified directory; for example:
 
 ```php
-ManifestJson::from('path/to/manifest/');
+ManifestJson::from('path/to/manifest/'); // defaults to `manifest.json`
+ManifestJson::from('path/to/manifest/my-manifest.json');
 ```
 
 ### `get(string $key): string`
